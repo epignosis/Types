@@ -1,0 +1,24 @@
+{
+  "name": "yrizos/types",
+  "autoload": {
+    "psr-4": {
+      "Epignosis\\Types\\": "src/",
+      "Epignosis\\Types\\Tests\\": "tests/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Yannis Rizos",
+      "email": "yrizos@gmail.com"
+    }
+  ],
+  "config": {
+    "platform": {
+      "php": "7.4"
+    }
+  },
+  "require-dev": {
+    "phpunit/phpunit": "*",
+    "vimeo/psalm": "^5.1"
+  }
+}
