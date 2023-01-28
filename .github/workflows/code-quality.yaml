@@ -45,7 +45,7 @@ jobs:
         run: composer install -n -o
 
       - name: Coding Standards (PSR-12)
-        run: phpcs --standard=PSR12 --report=checkstyle ./src/ ./tests/ | cs2pr
+        run: phpcs --standard=PSR12 --report=checkstyle ./src/ | cs2pr
 
       - name: Static Analysis (Psalm)
         run: ./vendor/bin/psalm

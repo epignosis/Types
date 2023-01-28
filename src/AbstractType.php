@@ -6,7 +6,7 @@ namespace Epignosis\Types;
 
 abstract class AbstractType implements TypeInterface
 {
-    abstract function getValue();
+    public abstract function getValue();
 
     final public function equals(TypeInterface $object): bool
     {
