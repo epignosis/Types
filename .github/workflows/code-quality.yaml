@@ -54,4 +54,5 @@ jobs:
         run: ./vendor/bin/phpunit
 
       - name: Mutation Tests
+        if: ${{matrix.php_versions}} != '7.4'
         run: infection run -c infection.dist.json
