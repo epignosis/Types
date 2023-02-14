@@ -1,0 +1,58 @@
+name: "Code Quality"
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - .editorconfig
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - .editorconfig
+    types:
+      - opened
+      - synchronize
+      - ready_for_review
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: "Code Quality (PHP${{matrix.php_versions}})"
+    strategy:
+      matrix:
+        php_versions: ['7.4', '8.0', '8.1', '8.2', '8.3']
+      fail-fast: true
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup PHP${{matrix.php_versions}}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{matrix.php_versions}}
+          tools: composer, cs2pr, phpcs, infection
+
+      - name: Get Composer cache directory
+        id: composer-cache
+        run: echo "composer_cache_dir=$(composer config cache-files-dir)" >> $GITHUB_ENV
+
+      - name: Install Dependencies
+        run: composer install -n -o
+
+      - name: Coding Standards (PSR-12)
+        run: phpcs --standard=PSR12 --report=checkstyle ./src/ | cs2pr
+
+      - name: Static Analysis (Psalm)
+        run: ./vendor/bin/psalm
+
+      - name: Unit Tests
+        run: ./vendor/bin/phpunit
+
+      - name: Mutation Tests
+        if: matrix.php_versions != '7.4'
+        run: infection run -c infection.dist.json
