@@ -35,7 +35,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{matrix.php_versions}}
-          tools: composer, cs2pr, phpcs, infection
+          tools: composer, cs2pr, phpcs, infection:0.26.19
 
       - name: Get Composer cache directory
         id: composer-cache
