@@ -1,5 +1,5 @@
 {
-  "name": "yrizos/types",
+  "name": "epignosis/types",
   "autoload": {
     "psr-4": {
       "Epignosis\\Types\\": "src/",
