@@ -4,6 +4,7 @@ namespace Epignosis\Types\String;
 
 use Epignosis\Types\AbstractType;
 use InvalidArgumentException;
+
 use const FILTER_NULL_ON_FAILURE;
 use const FILTER_SANITIZE_URL;
 use const FILTER_VALIDATE_URL;
