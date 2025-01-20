@@ -15,8 +15,6 @@ class Url extends AbstractType
 
     public function __construct(string $value)
     {
-        $value = trim($value);
-
         /** @var string|null $value */
         $value = filter_var($value, FILTER_SANITIZE_URL, FILTER_NULL_ON_FAILURE);
 
