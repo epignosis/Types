@@ -15,6 +15,13 @@ class UrlTest extends TestCase
         $this->assertEquals('https://www.example.com', $url->getValue());
     }
 
+    public function test_UrlIsTrimmed(): void
+    {
+        $url = new Url(' https://www.example.com ');
+
+        $this->assertEquals('https://www.example.com', $url->getValue());
+    }
+
     public function test_CanBeCreatedByUrlWithTrailingSlash(): void
     {
         $url = new Url('https://www.example.com/');
