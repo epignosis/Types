@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Epignosis\Types\String;
 
 use Epignosis\Types\AbstractType;
