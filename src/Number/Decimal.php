@@ -29,7 +29,9 @@ class Decimal extends AbstractType
         }
 
         if ($precision > 16 || $precision <= $minimumPrecision) {
-            throw new InvalidArgumentException("Precision must be greater than {$minimumPrecision} and less than or equal to 16.");
+            throw new InvalidArgumentException(
+                "Precision must be greater than {$minimumPrecision} and less than or equal to 16."
+            );
         }
 
         if ($rounding < 1 || $rounding > 4) {
@@ -64,7 +66,6 @@ class Decimal extends AbstractType
      */
     public static function fromNumeric($value, int $precision = 2, int $rounding = PHP_ROUND_HALF_UP): self
     {
-
         if (!is_numeric($value)) {
             throw new InvalidArgumentException('Value is not numeric.');
         }
@@ -76,7 +77,9 @@ class Decimal extends AbstractType
         }
 
         if ($precision > 16 || $precision <= $minimumPrecision) {
-            throw new InvalidArgumentException("Precision must be greater than {$minimumPrecision} and less than or equal to 16.");
+            throw new InvalidArgumentException(
+                "Precision must be greater than {$minimumPrecision} and less than or equal to 16."
+            );
         }
 
         if ($rounding < 1 || $rounding > 4) {
@@ -85,7 +88,5 @@ class Decimal extends AbstractType
 
         $value = round((float)$value, $precision, $rounding);
         return new self($value, $precision, $rounding);
-
     }
-
 }

@@ -71,7 +71,7 @@ final class DecimalTest extends TestCase
 
     public function test_GetMethods(): void
     {
-        $decimal = new Decimal(12.345, 2 , PHP_ROUND_HALF_UP);
+        $decimal = new Decimal(12.345, 2, PHP_ROUND_HALF_UP);
 
         $this->assertEquals(12.35, $decimal->getValue());
         $this->assertEquals(2, $decimal->getPrecision());
