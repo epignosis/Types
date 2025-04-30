@@ -42,10 +42,10 @@ class NonNegativeDecimal extends Decimal
 
         //parent::fromNumeric($value, $precision, $rounding); would be cleaner and DRY but redoes is_numeric check
 
-        if ((float)$value == 0.0) {
+        if ($value == 0.0) {
             $minimumPrecision = 0;
         } else {
-            $minimumPrecision = -(floor(log10(abs((float)$value))) + 1);
+            $minimumPrecision = -(floor(log10(abs($value))) + 1);
         }
 
         if ($precision > 16 || $precision <= $minimumPrecision) {
@@ -56,7 +56,7 @@ class NonNegativeDecimal extends Decimal
             throw new InvalidArgumentException('Rounding must be between 1 and 4.');
         }
 
-        $value = round((float)$value, $precision, $rounding);
+        $value = round($value, $precision, $rounding);
         return new self($value, $precision, $rounding);
     }
 }
