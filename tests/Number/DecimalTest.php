@@ -14,6 +14,13 @@ use InvalidArgumentException;
  */
 final class DecimalTest extends TestCase
 {
+    public function test_CanBeCreatedFromFloatWithDefaultPrecision(): void
+    {
+        $result = (new Decimal(12.3456))->getValue();
+
+        $this->assertEqualsWithDelta(12.35, $result, 0.00001);
+    }
+
     public function test_CanBeCreatedFromFloat(): void
     {
         $result = (new Decimal(12.345, 1))->getValue();
@@ -23,7 +30,7 @@ final class DecimalTest extends TestCase
 
     public function test_canBeCreatedFromFloatString(): void
     {
-        $result = Decimal::fromNumeric('12.345', 2)->getValue();
+        $result = Decimal::fromNumeric('12.345')->getValue();
 
         $this->assertEqualsWithDelta(12.35, $result, 0.00001);
     }
@@ -76,5 +83,24 @@ final class DecimalTest extends TestCase
         $this->assertEquals(12.35, $decimal->getValue());
         $this->assertEquals(2, $decimal->getPrecision());
         $this->assertEquals(1, $decimal->getRounding());
+    }
+
+    public function test_RoundingValues(): void
+    {
+        $decimal = new Decimal(12.345, 2, PHP_ROUND_HALF_UP);
+        $this->assertEquals(12.35, $decimal->getValue());
+        $this->assertEquals(1, $decimal->getRounding());
+
+        $decimal = new Decimal(12.345, 2, PHP_ROUND_HALF_DOWN);
+        $this->assertEquals(12.34, $decimal->getValue());
+        $this->assertEquals(2, $decimal->getRounding());
+
+        $decimal = new Decimal(12.345, 2, PHP_ROUND_HALF_EVEN);
+        $this->assertEquals(12.34, $decimal->getValue());
+        $this->assertEquals(3, $decimal->getRounding());
+
+        $decimal = new Decimal(12.345, 2, PHP_ROUND_HALF_ODD);
+        $this->assertEquals(12.35, $decimal->getValue());
+        $this->assertEquals(4, $decimal->getRounding());
     }
 }
