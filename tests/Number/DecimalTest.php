@@ -78,10 +78,10 @@ final class DecimalTest extends TestCase
 
     public function test_GetMethods(): void
     {
-        $decimal = new Decimal(12.345, 2, PHP_ROUND_HALF_UP);
+        $decimal = new Decimal(12.345, 16, PHP_ROUND_HALF_UP);
 
-        $this->assertEquals(12.35, $decimal->getValue());
-        $this->assertEquals(2, $decimal->getPrecision());
+        $this->assertEquals(12.345, $decimal->getValue());
+        $this->assertEquals(16, $decimal->getPrecision());
         $this->assertEquals(1, $decimal->getRounding());
     }
 
@@ -157,4 +157,19 @@ final class DecimalTest extends TestCase
         $this->expectExceptionMessage("Precision must be greater than 0 and less than or equal to 16.");
         new Decimal(0, -12);
     }
+
+    public function test_PrecisionFailsWhenBelowMinimumBasedOnFloor(): void
+    {
+        $value = 9.99;
+        $this->expectException(InvalidArgumentException::class);
+        new Decimal($value, -1);
+    }
+
+    public function test_PrecisionPassesWhenJustAboveMinimumBasedOnFloor(): void
+    {
+        $value = 9.99;
+        $decimal = new Decimal($value, 0);
+        $this->assertEquals(round(9.99, 0), $decimal->getValue());
+    }
+
 }

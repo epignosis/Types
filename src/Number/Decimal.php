@@ -72,7 +72,7 @@ class Decimal extends AbstractType
             throw new InvalidArgumentException('Value is not numeric.');
         }
 
-        if ((float)$value == 0.0) {
+        if ($value == 0.0) {
             $minimumPrecision = 0;
         } else {
             $minimumPrecision = -(floor(log10(abs((float)$value))) + 1);
