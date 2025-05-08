@@ -16,9 +16,9 @@ final class NonNegativeDecimalTest extends TestCase
 {
     public function test_CanBeCreatedFromPositiveDecimal(): void
     {
-        $result = (new NonNegativeDecimal(12.34))->getValue();
+        $result = (new NonNegativeDecimal(12.345))->getValue();
 
-        $this->assertEqualsWithDelta(12.34, $result, 0.00001);
+        $this->assertEqualsWithDelta(12.35, $result, 0.00001);
     }
 
     public function test_CanBeCreatedFromZero(): void
@@ -30,9 +30,9 @@ final class NonNegativeDecimalTest extends TestCase
 
     public function test_canBeCreatedFromNumericString(): void
     {
-        $result = NonNegativeDecimal::fromNumeric('12.34')->getValue();
+        $result = NonNegativeDecimal::fromNumeric('12.345')->getValue();
 
-        $this->assertEqualsWithDelta(12.34, $result, 0.00001);
+        $this->assertEqualsWithDelta(12.35, $result, 0.00001);
     }
 
     public function test_canBeCreatedFromFloat(): void
@@ -42,9 +42,17 @@ final class NonNegativeDecimalTest extends TestCase
         $this->assertEqualsWithDelta(12.34, $result, 0.00001);
     }
 
+    public function test_canBeCreatedFromZeroFromNumeric(): void
+    {
+        $result = NonNegativeDecimal::fromNumeric(0)->getValue();
+
+        $this->assertEqualsWithDelta(0, $result, 0.00001);
+    }
+
     public function test_canNotBeCreatedFromNegativeUsingNumericFloat(): void
     {
         $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Value must be a non-negative decimal number.');
 
         NonNegativeDecimal::fromNumeric(-12.34);
     }
@@ -52,6 +60,7 @@ final class NonNegativeDecimalTest extends TestCase
     public function test_canNotBeCreatedFromNonNumeric(): void
     {
         $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Value is not numeric.');
 
         NonNegativeDecimal::fromNumeric('abc');
     }
@@ -59,6 +68,7 @@ final class NonNegativeDecimalTest extends TestCase
     public function test_CannotBeCreatedFromNegativeFloat(): void
     {
         $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Value must be a non-negative decimal number.');
 
         new NonNegativeDecimal(-12.34);
     }
