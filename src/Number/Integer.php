@@ -28,7 +28,7 @@ class Integer extends AbstractType
     final public static function fromNumeric($value): self
     {
         if (is_numeric($value)) {
-            return new self((int)$value);
+            return new static((int)$value);
         }
 
         throw new InvalidArgumentException('Value is not numeric.');
