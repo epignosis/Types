@@ -103,4 +103,28 @@ final class DecimalTest extends TestCase
         $this->assertEquals(12.35, $decimal->getValue());
         $this->assertEquals(4, $decimal->getRounding());
     }
+
+    public function test_RoundingThrowsExceptionOnInvalidHigherValue(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        new Decimal(12.345, 2, 5);
+    }
+
+    public function test_RoundingThrowsExceptionOnInvalidLowerValue(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        new Decimal(12.345, 2, 0);
+    }
+
+    public function test_PrecisionThrowsExceptionWhenTooHigh(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        new Decimal(2, 17);
+    }
+
+    public function test_PrecisionThrowsExceptionWhenTooLow(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        new Decimal(2, -1);
+    }
 }
