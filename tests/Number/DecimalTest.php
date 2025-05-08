@@ -45,7 +45,7 @@ final class DecimalTest extends TestCase
     public function test_canNotBeCreatedFromNonNumeric(): void
     {
         $this->expectException(InvalidArgumentException::class);
-
+        $this->expectExceptionMessage('Value is not numeric.');
         Decimal::fromNumeric('abc');
     }
 
@@ -172,4 +172,55 @@ final class DecimalTest extends TestCase
         $this->assertEquals(round(9.99, 0), $decimal->getValue());
     }
 
+    public function test_FromNumericMinimumPrecisionIsZeroWhenGivenZeroAsValue(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Precision must be greater than 0 and less than or equal to 16.");
+        Decimal::fromNumeric(0, -12);
+    }
+
+    public function test_FromNumericPrecisionFailsWhenBelowMinimumBasedOnFloor(): void
+    {
+        $value = 9.99;
+        $this->expectException(InvalidArgumentException::class);
+        Decimal::fromNumeric($value, -1);
+    }
+
+    public function test_FromNumericPrecisionPassesWhenJustAboveMinimumBasedOnFloor(): void
+    {
+        $value = 9.99;
+        $decimal = Decimal::fromNumeric($value, 0);
+        $this->assertEquals(round(9.99, 0), $decimal->getValue());
+    }
+
+    public function test_FromNumericRoundingValues(): void
+    {
+        $decimal = Decimal::fromNumeric(12.345, 2, PHP_ROUND_HALF_UP);
+        $this->assertEquals(12.35, $decimal->getValue());
+        $this->assertEquals(1, $decimal->getRounding());
+
+        $decimal = Decimal::fromNumeric(12.345, 2, PHP_ROUND_HALF_DOWN);
+        $this->assertEquals(12.34, $decimal->getValue());
+        $this->assertEquals(2, $decimal->getRounding());
+
+        $decimal = Decimal::fromNumeric(12.345, 2, PHP_ROUND_HALF_EVEN);
+        $this->assertEquals(12.34, $decimal->getValue());
+        $this->assertEquals(3, $decimal->getRounding());
+
+        $decimal = Decimal::fromNumeric(12.345, 2, PHP_ROUND_HALF_ODD);
+        $this->assertEquals(12.35, $decimal->getValue());
+        $this->assertEquals(4, $decimal->getRounding());
+    }
+
+    public function test_FromNumericRoundingThrowsExceptionOnInvalidHigherValue(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        Decimal::fromNumeric(12.345, 2, 5);
+    }
+
+    public function test_FromNumericRoundingThrowsExceptionOnInvalidLowerValue(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        Decimal::fromNumeric(12.345, 2, 0);
+    }
 }

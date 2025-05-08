@@ -42,21 +42,6 @@ class NonNegativeDecimal extends Decimal
             throw new InvalidArgumentException('Value must be a non-negative decimal number.');
         }
 
-        if ($value == 0.0) {
-            $minimumPrecision = 0;
-        } else {
-            $minimumPrecision = -(floor(log10(abs($value))) + 1);
-        }
-
-        if ($precision > 16 || $precision <= $minimumPrecision) {
-            throw new InvalidArgumentException("Precision must be > {$minimumPrecision} and  <= 16.");
-        }
-
-        if ($rounding < 1 || $rounding > 4) {
-            throw new InvalidArgumentException('Rounding must be between 1 and 4.');
-        }
-
-        $value = round($value, $precision, $rounding);
         return new self($value, $precision, $rounding);
     }
 }

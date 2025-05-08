@@ -72,23 +72,8 @@ class Decimal extends AbstractType
             throw new InvalidArgumentException('Value is not numeric.');
         }
 
-        if ($value == 0.0) {
-            $minimumPrecision = 0;
-        } else {
-            $minimumPrecision = -(floor(log10(abs((float)$value))) + 1);
-        }
+        $value = (float)$value;
 
-        if ($precision > 16 || $precision <= $minimumPrecision) {
-            throw new InvalidArgumentException(
-                "Precision must be greater than {$minimumPrecision} and less than or equal to 16."
-            );
-        }
-
-        if ($rounding < 1 || $rounding > 4) {
-            throw new InvalidArgumentException('Rounding must be between 1 and 4.');
-        }
-
-        $value = round((float)$value, $precision, $rounding);
         return new self($value, $precision, $rounding);
     }
 }
