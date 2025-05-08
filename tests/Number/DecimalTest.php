@@ -150,4 +150,11 @@ final class DecimalTest extends TestCase
         $this->expectExceptionMessage("Precision must be greater than 0 and less than or equal to 16.");
         Decimal::fromNumeric(0, -12);
     }
+
+    public function test_MinimumPrecisionIsZeroWhenGivenZeroAsValue(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Precision must be greater than 0 and less than or equal to 16.");
+        new Decimal(0, -12);
+    }
 }

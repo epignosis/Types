@@ -42,8 +42,6 @@ class NonNegativeDecimal extends Decimal
             throw new InvalidArgumentException('Value must be a non-negative decimal number.');
         }
 
-        //parent::fromNumeric($value, $precision, $rounding); would be cleaner and DRY but redoes is_numeric check
-
         if ($value == 0.0) {
             $minimumPrecision = 0;
         } else {
