@@ -38,10 +38,6 @@ class NonNegativeDecimal extends Decimal
 
         $value = (float)$value;
 
-        if ($value < 0) {
-            throw new InvalidArgumentException('Value must be a non-negative decimal number.');
-        }
-
         return new self($value, $precision, $rounding);
     }
 }
