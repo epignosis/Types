@@ -119,12 +119,35 @@ final class DecimalTest extends TestCase
     public function test_PrecisionThrowsExceptionWhenTooHigh(): void
     {
         $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Precision must be greater than -1 and less than or equal to 16.");
         new Decimal(2, 17);
     }
 
     public function test_PrecisionThrowsExceptionWhenTooLow(): void
     {
         $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Precision must be greater than -1 and less than or equal to 16.");
         new Decimal(2, -1);
+    }
+
+    public function test_FromNumericPrecisionThrowsExceptionWhenTooLow(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Precision must be greater than -1 and less than or equal to 16.");
+        Decimal::fromNumeric(2, -1);
+    }
+
+    public function test_FromNumericPrecisionThrowsExceptionWhenTooHigh(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Precision must be greater than -1 and less than or equal to 16.");
+        Decimal::fromNumeric(2, 17);
+    }
+
+    public function test_FromNumericPrecisionThrowsExceptionWhenMinimumZeroAndValueZero(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Precision must be greater than 0 and less than or equal to 16.");
+        Decimal::fromNumeric(0, -12);
     }
 }
