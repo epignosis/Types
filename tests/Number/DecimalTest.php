@@ -223,4 +223,10 @@ final class DecimalTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         Decimal::fromNumeric(12.345, 2, 0);
     }
+    public function test_toString(): void
+    {
+        $decimal = new Decimal(123.321, 15, 1);
+        $this->assertEquals('123.321', $decimal->toString());
+        $this->assertSame('123.321', (string) $decimal->getValue());
+    }
 }

@@ -99,4 +99,10 @@ final class NonNegativeDecimalTest extends TestCase
         $this->assertFalse($float1->equals($float2));
         $this->assertFalse($float2->equals($float1));
     }
+
+    public function test_toString(): void
+    {
+        $decimal = new NonNegativeDecimal(123.321, 3);
+        $this->assertEquals('123.321', $decimal->toString());
+    }
 }

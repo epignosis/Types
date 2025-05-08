@@ -76,4 +76,9 @@ class Decimal extends AbstractType
 
         return new self($value, $precision, $rounding);
     }
+
+    final public function toString(): string
+    {
+        return (string)$this->value;
+    }
 }
