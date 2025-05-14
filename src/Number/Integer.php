@@ -11,8 +11,9 @@ class Integer extends AbstractType
 {
     private int $value;
 
-    public function __construct(int $value)
+    final public function __construct(int $value)
     {
+        $this->validate($value);
         $this->value = $value;
     }
 
@@ -25,12 +26,17 @@ class Integer extends AbstractType
      * @param int|float|string $value
      * @return static
      */
-    final public static function fromNumeric($value): self
+    final public static function fromNumeric($value): static
     {
         if (is_numeric($value)) {
             return new static((int)$value);
         }
 
         throw new InvalidArgumentException('Value is not numeric.');
+    }
+
+    protected function validate(int $value): void
+    {
+        // Integer does nothing.
     }
 }
