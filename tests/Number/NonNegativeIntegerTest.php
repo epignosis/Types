@@ -72,4 +72,25 @@ final class NonNegativeIntegerTest extends TestCase
         $this->assertFalse($integer1->equals($integer2));
         $this->assertFalse($integer2->equals($integer1));
     }
+
+    public function test_canNotBeCreatedFromNegativeNumericString(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        NonNegativeInteger::fromNumeric('-42');
+    }
+
+    public function test_canNotBeCreatedFromNegativeFloat(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $result = NonNegativeInteger::fromNumeric(-42.3);
+    }
+
+    public function test_canNotBeCreatedFromNegativeNumeric(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        NonNegativeInteger::fromNumeric(-42);
+    }
 }

@@ -8,12 +8,10 @@ use InvalidArgumentException;
 
 class NonNegativeInteger extends Integer
 {
-    public function __construct(int $value)
+    protected function validate(int $value): void
     {
         if ($value < 0) {
             throw new InvalidArgumentException('Value must be a non negative integer');
         }
-
-        parent::__construct($value);
     }
 }
