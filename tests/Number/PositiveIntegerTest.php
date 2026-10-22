@@ -73,4 +73,30 @@ final class PositiveIntegerTest extends TestCase
         $this->assertFalse($integer1->equals($integer2));
         $this->assertFalse($integer2->equals($integer1));
     }
+
+    public function test_fromNumericReturnsInstanceOfCalledClass(): void
+    {
+        $this->assertInstanceOf(PositiveInteger::class, PositiveInteger::fromNumeric('42'));
+    }
+
+    public function test_CannotBeCreatedFromNegativeNumericString(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        PositiveInteger::fromNumeric('-42');
+    }
+
+    public function test_CannotBeCreatedFromZeroNumericString(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        PositiveInteger::fromNumeric('0');
+    }
+
+    public function test_CannotBeCreatedFromNegativeFloat(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        PositiveInteger::fromNumeric(-42.3);
+    }
 }
