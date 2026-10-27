@@ -6,6 +6,7 @@ namespace Epignosis\Types\Tests\Number;
 
 use Epignosis\Types\Number\Integer;
 use Epignosis\Types\Number\PositiveInteger;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 final class IntegerTest extends TestCase
@@ -29,6 +30,25 @@ final class IntegerTest extends TestCase
         $result = Integer::fromNumeric(42.3)->getValue();
 
         $this->assertEquals(42, $result);
+    }
+
+    public function test_canBeCreatedFromNegativeNumericString(): void
+    {
+        $result = Integer::fromNumeric('-42')->getValue();
+
+        $this->assertEquals(-42, $result);
+    }
+
+    public function test_fromNumericReturnsPlainInteger(): void
+    {
+        $this->assertSame(Integer::class, get_class(Integer::fromNumeric('42')));
+    }
+
+    public function test_CannotBeCreatedFromNonNumericString(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        Integer::fromNumeric('abc');
     }
 
     public function test_IsEqualToSameTypeWithSameValue(): void
